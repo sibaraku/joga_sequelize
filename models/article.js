@@ -3,7 +3,8 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-Article.init(
+  class Article extends Model {}
+  Article.init(
     {
       id: {
         type: DataTypes.INTEGER,
