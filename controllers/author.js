@@ -6,8 +6,16 @@ const models = require("../models");
 const getArticleByAuthor = (req, res) => {
   console.log(req.params.id);
   models.Author.findByPk(req.params.id, {
-    include: [{ model: models.Article, as: "article" }],
-  })
+    include: [
+      {
+        model: models.Author,
+      },
+      {
+        model: models.Tags,
+        through: { model: models.ArticleTag },
+      },
+    ],
+    })
     .then((article) => {
       res.status(200).json({ article });
     })
