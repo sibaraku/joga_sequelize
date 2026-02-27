@@ -54,4 +54,19 @@ const updateArticle = (req, res) => {
     });
 };
 
-module.exports = { createArticle, updateArticle };
+const deleteArticle = (req, res) => {
+  const deletedArticle = models.Article.destroy({
+    where: { id: req.params.id },
+  })
+    .then((article) => {
+      console.log(article);
+      res
+        .status(200)
+        .json({ message: `Deleted article with id ${req.params.id}` });
+    })
+    .catch((error) => {
+      res.status(500).send(error.message);
+    });
+};
+
+module.exports = { createArticle, updateArticle, deleteArticle };
