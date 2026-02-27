@@ -27,4 +27,31 @@ const createArticle = (req, res) => {
     });
 };
 
-module.exports = { createArticle };
+const updateArticle = (req, res) => {
+  let name = req.body.name;
+  let slug = req.body.slug;
+  let image = req.body.image;
+  let body = req.body.body;
+
+  const updatedArticle = models.Article.update(
+    {
+      name: name,
+      slug: slug,
+      image: image,
+      body: body,
+      published: new Date().toISOString().slice(0, 19).replace("T", " "),
+    },
+    { where: { id: req.params.id } }
+  )
+    .then((article) => {
+      console.log(article);
+      res
+        .status(200)
+        .json({ message: `Updated article with id ${req.params.id}` });
+    })
+    .catch((error) => {
+      res.status(500).send(error.message);
+    });
+};
+
+module.exports = { createArticle, updateArticle };
